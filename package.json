@@ -1,0 +1,15 @@
+{
+  "name": "ssi-proxy",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.4.1",
+    "csv-stringify": "^6.2.0",
+    "https-proxy-agent": "^6.0.0"
+  }
+}
