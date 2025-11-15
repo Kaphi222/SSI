@@ -1,11 +1,11 @@
 import express from "express";
 import fetch from "node-fetch";
-import HttpsProxyAgent from "https-proxy-agent";
+import pkg from "https-proxy-agent";
+const { HttpsProxyAgent } = pkg;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ⚠️ Proxy bạn cung cấp (không user/pass)
 const PROXY = "http://103.82.37.52:41205";
 
 app.get("/ssi", async (req, res) => {
@@ -21,19 +21,15 @@ app.get("/ssi", async (req, res) => {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
         "Accept": "text/csv,application/json,text/plain,*/*",
-        "Accept-Language": "vi,en-US;q=0.9",
+        "Referer": "https://iboard.ssi.com.vn/",
         "Origin": "https://iboard.ssi.com.vn",
-        "Referer": "https://iboard.ssi.com.vn/"
       },
       agent
     });
 
-    if (!response.ok) {
-      return res.status(500).send("SSI API error: " + response.status);
-    }
+    if (!response.ok) return res.status(500).send("SSI API error: " + response.status);
 
     const csv = await response.text();
-
     res.setHeader("Content-Type", "text/csv; charset=utf-8");
     res.send(csv);
 
@@ -42,6 +38,4 @@ app.get("/ssi", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log("Proxy server chạy trên port " + PORT);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
